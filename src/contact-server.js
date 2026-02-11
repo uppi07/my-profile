@@ -1,9 +1,18 @@
 import express from "express";
 import nodemailer from "nodemailer";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 const isProd = process.env.NODE_ENV === "production";
+
+app.use(cors({
+  origin: [
+    "https://my-profile-rosy-alpha.vercel.app",
+    "http://localhost:5173"
+  ],
+  methods: ["POST"],
+}));
 
 app.use(express.json());
 
@@ -29,19 +38,14 @@ app.post("/api/contact", async (req, res) => {
         return res.status(500).json({ ok: false, error: "SMTP env vars missing" });
       }
 
-      console.warn("[contact] SMTP env vars missing; skipping send (dev mode).", {
-        name,
-        email,
-        message
-      });
-
+      console.warn("[contact] SMTP env vars missing; skipping send (dev mode).");
       return res.json({ ok: true, skipped: true });
     }
 
     const transporter = nodemailer.createTransport({
       host: SMTP_HOST,
       port: Number(SMTP_PORT),
-      secure: Number(SMTP_PORT) === 465, // true for 465, false for others
+      secure: Number(SMTP_PORT) === 465,
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
