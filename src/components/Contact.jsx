@@ -1,45 +1,47 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Section from "./Section";
-import { PROFILE } from "../data";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL;
 
 export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
+
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     const message = form.message.value.trim();
 
+    if (!email) {
+      setStatus("error");
+      setError("Email required");
+      return;
+    }
+
     setStatus("sending");
     setError("");
 
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message })
-      });
+    const subject = encodeURIComponent(`Portfolio inquiry from ${name || "visitor"}`);
 
-      const isJson = res.headers.get("content-type")?.includes("application/json");
-      const data = isJson ? await res.json() : {};
+    const body = encodeURIComponent(
+`Name: ${name}
+Email: ${email}
 
-      if (!res.ok || (isJson && data && data.ok === false)) {
-        const msg = (isJson && data && data.error) || `Send failed (HTTP ${res.status})`;
-        throw new Error(msg);
-      }
+Message:
+${message || "(no message)"}`
+    );
 
-      setStatus("sent");
-      form.reset();
-    } catch (err) {
-      setStatus("error");
-      setError(err.message || "Unable to send right now.");
-    }
+    const gmailUrl =
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL}&su=${subject}&body=${body}`;
+
+    window.open(gmailUrl, "_blank");
+
+    setStatus("sent");
+    form.reset();
   };
 
   return (
@@ -69,7 +71,7 @@ export default function Contact() {
           </div>
 
           <label className="space-y-2 text-sm text-white/80">
-            <span className="text-xs uppercase tracking-[0.16em] text-white/50">Message (optional)</span>
+            <span className="text-xs uppercase tracking-[0.16em] text-white/50">Message</span>
             <textarea name="message" rows="4" placeholder="A few lines about what you need"
               className="w-full rounded-xl border border-white/12 bg-transparent px-4 py-3 text-base text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/25 focus:border-white/30 transition resize-none"
             />
@@ -77,19 +79,23 @@ export default function Contact() {
 
           <div className="flex items-center justify-between pt-2">
             <div className="text-xs text-white/50">
-              {status === "sent" ? "Sent. I’ll reply quickly." : "Quick replies."}
+              {status === "sent"
+                ? "Gmail opened. Send your message ✉️"
+                : "Quick replies."}
             </div>
 
             <button type="submit"
               className="rounded-xl bg-white text-black px-5 py-3 text-sm font-semibold tracking-tight hover:bg-white/90 transition disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={status === "sending"}
             >
-              {status === "sending" ? "Sending..." : "Send message"}
+              Send message
             </button>
           </div>
 
           {status === "error" && (
-            <div className="text-xs text-red-300">{error || "Something went wrong. Try again."}</div>
+            <div className="text-xs text-red-300">
+              {error || "Something went wrong. Try again."}
+            </div>
           )}
         </form>
       </motion.div>
