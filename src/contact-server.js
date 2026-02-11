@@ -4,14 +4,13 @@ import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const isProd = process.env.NODE_ENV === "production";
 
 app.use(cors({
   origin: [
     "https://my-profile-rosy-alpha.vercel.app",
     "http://localhost:5173"
   ],
-  methods: ["POST"],
+  methods: ["POST"]
 }));
 
 app.use(express.json());
@@ -19,63 +18,61 @@ app.use(express.json());
 app.post("/api/contact", async (req, res) => {
   try {
     const { name = "", email = "", message = "" } = req.body || {};
+
     if (!email.trim()) {
       return res.status(400).json({ ok: false, error: "Email required" });
     }
 
-    const {
-      SMTP_HOST,
-      SMTP_PORT,
-      SMTP_USER,
-      SMTP_PASS,
-      MAIL_FROM = SMTP_USER,
-      MAIL_TO = process.env.MAIL_TO || SMTP_USER
-    } = process.env;
-
-    const missingEnv = !SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS;
-    if (missingEnv) {
-      if (isProd) {
-        return res.status(500).json({ ok: false, error: "SMTP env vars missing" });
-      }
-
-      console.warn("[contact] SMTP env vars missing; skipping send (dev mode).");
-      return res.json({ ok: true, skipped: true });
-    }
-
     const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: Number(SMTP_PORT),
-      secure: Number(SMTP_PORT) === 465,
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: false, // MUST be false for port 587
       auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS
-      }
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      },
+
+      // prevent hanging
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
+
+      // debug logs in Render
+      logger: true,
+      debug: true
     });
 
+    // verify SMTP connection before sending
+    await transporter.verify();
+
     const subject = `Portfolio inquiry from ${name || "visitor"}`;
-    const text = [
-      `Name: ${name || "(not provided)"}`,
-      `Email: ${email}`,
-      "",
-      "Message:",
-      message || "(no message)"
-    ].join("\n");
+    const text = `
+Name: ${name || "(not provided)"}
+Email: ${email}
+
+Message:
+${message || "(no message)"}
+`;
 
     await transporter.sendMail({
-      from: MAIL_FROM,
-      to: MAIL_TO,
-      subject,
+      from: process.env.SMTP_USER,
+      to: process.env.MAIL_TO || process.env.SMTP_USER,
       replyTo: email,
+      subject,
       text
     });
 
     res.json({ ok: true });
+
   } catch (err) {
     console.error("Mail send failed:", err);
-    res.status(500).json({ ok: false, error: "Send failed" });
+    res.status(500).json({
+      ok: false,
+      error: err.message || "Send failed"
+    });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Contact server listening on http://localhost:${PORT}`);
+  console.log(`Contact server listening on port ${PORT}`);
 });
