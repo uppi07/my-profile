@@ -20,36 +20,49 @@ export const SKILLS = [
 
 export const PROJECTS = [
   {
-    title: "FindRightJob",
+    title: "Recruitimee",
     year: "2026",
-    tagline: "A job-search platform with microservices + real-time matching.",
-    stack: ["React", "Node", "MySQL", "Kafka", "Redis"],
+    tagline:
+      "A recruitment intelligence platform enabling candidate discovery, role matching, and structured hiring workflows with scalable search and filtering.",
+    stack: ["React", "Node.js", "MySQL", "Redis", "Kafka"],
     links: {
-      live: "https://example.com",
-      code: "https://github.com/yourhandle/findrightjob"
+      live: "https://www.recruitemee.com",
+      code: "https://github.com/yourhandle/recruitimee"
     }
   },
   {
     title: "Appointment Booking System",
     year: "2026",
-    tagline: "Public consultant scheduling with availability-driven slots, double-booking prevention, and automated reminders.",
-    stack: ["Node", "Express", "MongoDB", "Mongoose", "React", "Tailwind", "JWT", "Nodemailer"],
+    tagline:
+      "Production-style scheduling platform with dynamic availability management, conflict-free slot booking, secure JWT authentication, and automated email workflows.",
+    stack: [
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Mongoose",
+      "React",
+      "Tailwind",
+      "JWT",
+      "Nodemailer"
+    ],
     links: {
       live: "https://example.com",
-      code: "https://github.com/yourhandle/url-shortener"
+      code: "https://github.com/yourhandle/appointment-booking-system"
     }
   },
   {
     title: "Instagram-like Feed System",
     year: "2026",
-    tagline: "Feed generation strategies + scalable read paths.",
-    stack: ["Node", "MongoDB", "Redis"],
+    tagline:
+      "Feed generation strategies and scalable read-optimized architecture.",
+    stack: ["Node.js", "MongoDB", "Redis"],
     links: {
       live: "https://example.com",
       code: "https://github.com/yourhandle/insta-feed"
     }
   }
 ];
+
 
 export const EXPERIENCE = [
   {
