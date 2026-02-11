@@ -27,7 +27,7 @@ export const PROJECTS = [
     stack: ["React", "Node.js", "MySQL", "Redis", "Kafka"],
     links: {
       live: "https://www.recruitemee.com",
-      code: "https://github.com/yourhandle/recruitimee"
+      code: "https://github.com/uppi07/RecruiteMee_v1"
     }
   },
   {
