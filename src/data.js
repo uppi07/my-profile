@@ -44,8 +44,8 @@ export const PROJECTS = [
     stack: [],
     bg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80",
     links: {
-      live: "https://example.com",
-      code: "https://github.com/yourhandle/appointment-booking-system"
+      live: "https://appointment-booking-system-57tm.vercel.app/",
+      code: "https://github.com/uppi07/Appointment-Booking-System"
     }
   },
   {
