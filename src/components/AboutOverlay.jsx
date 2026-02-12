@@ -49,7 +49,8 @@ export default function AboutOverlay({ onClose }) {
     >
       <TopBar onClose={onClose} />
       <div className="h-[calc(100%-64px)] min-h-0 flex flex-col">
-        <div className="flex-1 min-h-0 flex">
+        <MobileFileStrip activeFile={activeFile} setActiveFile={setActiveFile} />
+        <div className="flex-1 min-h-0 flex flex-col md:flex-row">
           <Sidebar activeFile={activeFile} setActiveFile={setActiveFile} />
           <div className="flex-1 grid grid-cols-1 min-h-0 bg-[#0f1014]">
             <div className="flex flex-col min-h-0">
@@ -165,10 +166,8 @@ function ExperienceTypewriter() {
         {!done && (
           <div className="whitespace-pre-wrap">
             {current}
-            {cursorOn && <span className="text-white">│</span>}
           </div>
         )}
-        {done && false && cursorOn && <span className="text-white">│</span>}
       </div>
     </div>
   );
@@ -241,6 +240,31 @@ function TopBar({ onClose }) {
   );
 }
 
+function MobileFileStrip({ activeFile, setActiveFile }) {
+  return (
+    <div className="md:hidden sticky top-10 z-30 bg-[#0b0c0f]/95 backdrop-blur-md border-b border-white/10 px-3 py-3 overflow-x-auto no-scrollbar">
+      <div className="flex gap-2 min-w-max">
+        {FILES.map((file) => {
+          const active = file === activeFile;
+          return (
+            <button
+              key={file}
+              onClick={() => setActiveFile(file)}
+              className={`px-3 py-2 rounded-lg border text-[11px] font-mono transition ${
+                active
+                  ? "bg-white/15 border-white/30 text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+                  : "bg-white/[0.04] border-white/10 text-white/70 hover:text-white"
+              }`}
+            >
+              {file}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Sidebar({ activeFile, setActiveFile }) {
   return (
     <div className="w-64 bg-[#0f1114] border-r border-white/10 text-sm select-none hidden md:flex flex-col">
@@ -287,7 +311,7 @@ function EditorArea({ activeFile }) {
   const lines = useMemo(() => CONTENT[activeFile] || [], [activeFile]);
 
   return (
-    <div className="flex-1 overflow-auto font-mono text-sm leading-6 text-[#d4d4d4] bg-[#0f1014]">
+    <div className="flex-1 min-h-0 overflow-auto font-mono text-sm leading-6 text-[#d4d4d4] bg-[#0f1014] max-h-[calc(100vh-240px)] md:max-h-none">
       <div className="grid grid-cols-[auto_1fr] gap-4 px-6 py-6">
         <div className="text-right pr-3 text-[#58606f] select-none">
           {lines.map((_, i) => (
@@ -372,7 +396,7 @@ function ReadmeTypewriter() {
   }, []);
 
   return (
-    <div className="flex-1 bg-[#0f1014] relative overflow-hidden px-8 py-10">
+    <div className="flex-1 bg-[#0f1014] relative overflow-auto md:overflow-hidden px-6 md:px-8 py-8 md:py-10 max-h-[calc(100vh-240px)] md:max-h-none">
       <div className="font-mono text-[15px] leading-7 text-[#d4d4d4] max-w-3xl mx-auto">
         {completed.slice(0, lines.length).map((parts, i) => (
           <div key={i} className="whitespace-pre-wrap">
@@ -385,10 +409,8 @@ function ReadmeTypewriter() {
         {!done && (
           <div className="whitespace-pre-wrap">
             {current}
-            {cursorOn && <span className="text-white">│</span>}
           </div>
         )}
-        {done && cursorOn && <span className="text-white">│</span>}
       </div>
     </div>
   );
@@ -490,10 +512,10 @@ function TechStackOrbit() {
   const [focused, setFocused] = useState(tech[0]);
 
   return (
-    <div className="flex-1 bg-[#0f1014] relative overflow-hidden px-6 py-8">
+    <div className="flex-1 bg-[#0f1014] relative overflow-hidden px-4 sm:px-6 py-6 sm:py-8">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_20%,rgba(255,255,255,0.04),transparent_45%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.03),transparent_45%)]" />
 
-      <div className="relative h-full min-h-[520px] flex items-center justify-center px-2">
+      <div className="relative h-full min-h-[420px] md:min-h-[520px] flex items-center justify-center px-2">
         <div
           className="relative w-full max-w-6xl max-h-[70vh] rounded-2xl border border-white/8 bg-[#0b0c10]/70 backdrop-blur-[2px] overflow-auto p-6"
         >
@@ -693,9 +715,9 @@ function CodeFlowVisual() {
 
 function Terminal() {
   return (
-    <div className="h-44 border-t border-white/10 bg-[#0f1114] text-[#d4d4d4] font-mono text-sm px-4 py-3 flex flex-col gap-2 select-none">
+    <div className="h-36 sm:h-40 md:h-44 border-t border-white/10 bg-[#0f1114] text-[#d4d4d4] font-mono text-sm px-4 py-3 flex flex-col gap-2 select-none">
       <div className="text-white/70 text-xs uppercase tracking-[0.18em]">TERMINAL</div>
-      <div className="flex-1 bg-[#0b0c10] border border-white/10 px-3 py-2 overflow-hidden flex flex-col justify-center rounded">
+      <div className="flex-1 bg-[#0b0c10] border border-white/10 px-3 py-2 overflow-auto flex flex-col justify-start rounded">
         <div className="space-y-1 text-[#a9b2c0] break-all selection:bg-white selection:text-black">
           <div>
             $ <a className="underline text-white" href="https://www.linkedin.com/in/upendradommaraju/" target="_blank" rel="noreferrer">https://www.linkedin.com/in/upendradommaraju/</a>
@@ -725,7 +747,6 @@ function StatusBar() {
         <span>LF</span>
       </div>
       <div className="flex items-center gap-3 text-white/90">
-        <span>TypeScript</span>
         <span>Ready</span>
       </div>
     </div>
@@ -737,7 +758,7 @@ function RightEdgeBackArrow({ onClick }) {
     <motion.button
       aria-label="Back to main"
       onClick={onClick}
-      className="fixed left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 text-white"
+      className="fixed left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 text-white hidden md:block"
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 0.9, x: 0 }}
       whileHover={{ opacity: 1, scale: 1.06 }}
@@ -795,15 +816,15 @@ function OverlayRobotButton() {
     <motion.button
       aria-label="Assistant"
       onClick={() => setOpen((v) => !v)}
-      className="fixed right-4 bottom-16 md:right-6 md:bottom-18 z-50"
+      className="fixed right-4 bottom-12 md:right-6 md:bottom-14 z-50"
       initial={{ opacity: 0, scale: 0.9, y: 8 }}
       animate={{ opacity: 0.9, scale: 1, y: 0 }}
       whileHover={{ opacity: 1, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <div className="p-3 rounded-full border border-white/15 bg-white/10 shadow-[0_12px_30px_rgba(0,0,0,0.45)]">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
+      <div className="p-3 rounded-full border border-black/10 bg-white text-black shadow-[0_12px_30px_rgba(0,0,0,0.35)]">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
           <path d="M12 2v3" />
           <rect x="5" y="7" width="14" height="10" rx="3" />
           <path d="M5 11H3" />
@@ -822,10 +843,10 @@ function OverlayRobotButton() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 bottom-16 w-56 rounded-2xl border border-white/12 bg-[#0f1116] shadow-[0_18px_40px_rgba(0,0,0,0.45)] p-3 text-left"
+            className="absolute right-0 bottom-16 w-56 rounded-2xl border border-black/10 bg-white shadow-[0_18px_40px_rgba(0,0,0,0.28)] p-3 text-left text-black"
           >
-            <div className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Assistant</div>
-            <div className="text-sm text-white/85">Soon...</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-black/60 mb-2">Assistant</div>
+            <div className="text-sm text-black/80">Soon...</div>
           </motion.div>
         )}
       </AnimatePresence>

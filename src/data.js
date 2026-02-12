@@ -20,42 +20,43 @@ export const SKILLS = [
 
 export const PROJECTS = [
   {
-    title: "Recruitimee",
+    title: "RecruiteMee",
     year: "2026",
-    tagline:
-      "A recruitment intelligence platform enabling candidate discovery, role matching, and structured hiring workflows with scalable search and filtering.",
-    stack: ["React", "Node.js", "MySQL", "Redis", "Kafka"],
+    tagline: "Resume Builder & Recruitment Platform",
+    problem: "Users struggled with complex resume tools and poor candidate search experience.",
+    solution:
+      "Built a modern MERN application with intuitive resume creation, smooth workflows, and fast, user-friendly search.",
+    feedback: "Client praised the clean UI/UX for improving usability and engagement.",
+    stack: [],
+    bg: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=80",
     links: {
       live: "https://www.recruitemee.com",
       code: "https://github.com/uppi07/RecruiteMee_v1"
     }
   },
   {
-    title: "Appointment Booking System",
+    title: "QuickBook",
     year: "2026",
-    tagline:
-      "Production-style scheduling platform with dynamic availability management, conflict-free slot booking, secure JWT authentication, and automated email workflows.",
-    stack: [
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Mongoose",
-      "React",
-      "Tailwind",
-      "JWT",
-      "Nodemailer"
-    ],
+    tagline: "Appointment booking made simple.",
+    problem: "Manual calendars caused conflicts and missed appointments.",
+    solution: "Providers set availability, users book in real time, with conflict checks and email confirmations.",
+    feedback: "Stakeholders liked the predictable flow and fewer back-and-forths.",
+    stack: [],
+    bg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80",
     links: {
       live: "https://example.com",
       code: "https://github.com/yourhandle/appointment-booking-system"
     }
   },
   {
-    title: "Instagram-like Feed System",
+    title: "RAG Intelligence Bot",
     year: "2026",
-    tagline:
-      "Feed generation strategies and scalable read-optimized architecture.",
-    stack: ["Node.js", "MongoDB", "Redis"],
+    tagline: "Enterprise RAG assistant embedded in the internal portal.",
+    problem: "Employees struggled to find policies and process docs; portal search was slow and incomplete.",
+    solution: "Built a RAG chatbot with vector search over internal documents, role-based access, and source citations—available directly inside the portal.",
+    feedback: "Pilot teams reported faster answers and higher self-serve rates.",
+    stack: [],
+    bg: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1600&q=80",
     links: {
       live: "https://example.com",
       code: "https://github.com/yourhandle/insta-feed"
