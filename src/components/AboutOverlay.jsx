@@ -83,7 +83,7 @@ function ExperienceTypewriter() {
       { t: "accent", v: "CoverMyMeds" },
       " · ",
       { t: "green", v: "Software Engineer (Internship)" },
-      " · Twinsburg, Ohio · Jun 2024 - Dec 2025"
+      " · Twinsburg, Ohio · Jun 2025 - Present"
     ],
     ["• Delivered scalable backend services using Node.js, Express.js, and MongoDB on AWS (EC2), improving stability and reducing downtime."],
     ["• Evolved monolith into MERN microservices with Docker and AWS Lambda, boosting deployment independence and fault isolation."],
