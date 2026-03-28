@@ -69,25 +69,16 @@ export const EXPERIENCE = [
   {
     company: "CoverMyMeds",
     title: "Software Engineer",
-    period: "2022 — 2024",
+    period: "2025 — Present",
     bullets: [
       "Built and shipped backend services with strong reliability and observability.",
       "Improved performance and reduced incidents via better caching + API design."
     ]
   },
   {
-    company: "Bread Financial",
-    title: "Software Engineer",
-    period: "2021 — 2022",
-    bullets: [
-      "Delivered full-stack features end-to-end, from APIs to UI.",
-      "Worked in Agile/Scrum with production ownership."
-    ]
-  },
-  {
     company: "Accenture",
     title: "Software Engineer",
-    period: "2019 — 2021",
+    period: "2020 — 2023",
     bullets: [
       "Built scalable integrations and improved internal tools.",
       "Collaborated cross-team to deliver on time with quality."
